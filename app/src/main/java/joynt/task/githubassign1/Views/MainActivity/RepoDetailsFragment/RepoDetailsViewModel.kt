@@ -27,7 +27,7 @@ constructor( private val service: ApiService,private val db: GitRepo): ViewModel
             override fun onChanged(t: List<Contributor>?) {
                 if (t!=null && t.size!=0)
                     liveData?.postValue(t)
-                else if (reqCounter>0)
+                else
                     requestFromApi(repo)
             }
         })
@@ -42,7 +42,6 @@ constructor( private val service: ApiService,private val db: GitRepo): ViewModel
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : DisposableSingleObserver<Response<List<Contributor>>>() {
                 override fun onSuccess(repodata: Response<List<Contributor>>) {
-                    reqCounter++
                     if (repodata.isSuccessful)
                     {
                         //                        liveData?.postValue(repodata.body())

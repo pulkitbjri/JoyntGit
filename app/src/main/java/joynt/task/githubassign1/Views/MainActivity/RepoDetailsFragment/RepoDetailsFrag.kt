@@ -49,7 +49,7 @@ class RepoDetailsFrag : BaseFragment<RepoDetailsViewModel>() {
 
         repo=arguments?.getSerializable("repo") as Repo
 
-        if (arguments?.containsKey("local")!!)
+        if (arguments!=null)
             fromLocal= arguments?.getBoolean("local",false)!!
 
         name.text = "Name : ${repo?.name}"

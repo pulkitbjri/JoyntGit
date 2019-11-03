@@ -43,20 +43,24 @@ class RepoFragment : BaseFragment<RepoViewModel>() , ClickEvent{
         adapter.clickEvent=this
         recycler.layoutManager=layoutManager
         recycler.adapter=adapter
-
+        viewModel.getData()
         setObservers()
     }
 
     private fun setObservers() {
-        viewModel.repoPagedList?.observe(this,
-            Observer<PagedList<Repo>> {
-                showEmptyList(it.size == 0)
-                adapter.submitList(it)
-            })
-        viewModel.networkState?.observe(this,
-            Observer<NetworkState> {
-                Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
-            })
+        viewModel.let {
+
+            viewModel.repoPagedList?.observe(this,
+                Observer<PagedList<Repo>> {
+                    adapter.submitList(it)
+                })
+            viewModel.networkState?.observe(this,
+                Observer<NetworkState> {
+
+                    showEmptyList(adapter.currentList?.size!! > 0)
+                    Toast.makeText(activity, it.message, Toast.LENGTH_SHORT).show()
+                })
+        }
     }
 
 
